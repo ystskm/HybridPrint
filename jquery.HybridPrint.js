@@ -2,13 +2,7 @@
 // a JavaScript library on synquery.
 // require: jQuery > 1.7.0, 
 //        : jquery.jqcanvo.js (jQuery plug-in)
-//        : jquery.EasySvg.js (jQuery plug-in)
-
-// jquery.jqcanvo.js
-ECDB.Include('dxGHe1C0');
-
-// jquery.EasySvg.js
-ECDB.Include('wpJeBam7');
+//        : EasySvg.js (javascript plug-in)
 
 function HybridPrint(w, h, o) {
 
@@ -16,6 +10,7 @@ function HybridPrint(w, h, o) {
     canvas_id: 'hp_canvas',
     svg_id: 'hp_svg',
     appendTo: $('body'),
+    hidden: true,
     unit: 'px' // TODO "mm"
   }, o);
 
@@ -44,12 +39,21 @@ function HybridPrint(w, h, o) {
   }
 
   // iframe for printing
-  var $ifr = this.$iframe = $('<iframe/>');
+  var $ifr = this.$iframe = $('<iframe/>').css('border', 'none');
   var $dfd = this.$dfd = new $.Deferred();
 
-  this.$div = $('<div/>').appendTo(o.appendTo).css({
-    opacity: 0
-  }).append(this.$iframe);
+  var $div = this.$div = $('<div/>');
+  if(o.hidden === true) {
+    $div.css({
+      opacity: 0
+    });
+  } else {
+    $ifr.attr({
+      width: this._width,
+      height: this._height
+    });
+  }
+  $div.appendTo(o.appendTo).append(this.$iframe);
 
   $ifr.ready(function() {
     var win = $ifr.get(0).contentWindow, doc = win.document;
