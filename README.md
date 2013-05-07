@@ -15,13 +15,13 @@ in &lt;head&gt;
 __create print iframe__
 
 	var hp = new HybridPrint(300, 300);
-in this case, a 300px x 300px print area is made.
+in this case, a 300px x 300px print area is made.  
 
 __draw line__
 
 	hp.line(100, 100, 200, 200);
-functions for HybridPrint is bridged from EasySvg for easy use.
-a part of diagonal line will be drawn.
+functions for HybridPrint is bridged from EasySvg for easy use.  
+a part of diagonal line will be drawn.  
 
 __print page__
 
