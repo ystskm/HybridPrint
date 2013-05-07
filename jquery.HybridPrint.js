@@ -11,13 +11,17 @@ function HybridPrint(w, h, o) {
     svg_id: 'hp_svg',
     appendTo: $('body'),
     hidden: true,
-    unit: 'px' // TODO "mm"
+    unit: 'px', // TODO "mm"
+    ratio: 1
   }, o);
 
   var hp = this;
 
-  this._width = w, this._height = h, this._unit = o.unit;
+  this._width = w, this._height = h, this._unit = o.unit, this._ratio = o.ratio;
   this.$wrapper = $('<div/>').addClass('hybridprint wrapper');
+
+  if(parseInt(this._width) != w)
+    this._unit = w.replace(/\d+/g, '');
 
   // canvas
   if(o.canvas_id) {
@@ -48,7 +52,7 @@ function HybridPrint(w, h, o) {
       opacity: 0
     });
   } else {
-    $ifr.attr({
+    $ifr.css({
       width: this._width,
       height: this._height
     });
@@ -67,6 +71,9 @@ function HybridPrint(w, h, o) {
     doc.body.style.margin = 0;
     $(doc.head).append($('<style type="text/css" media="print"/>').text(sty));
     $(doc.body).append(hp.wrapper());
+    if($ifr.width() != hp._width)
+      hp._ratio = $ifr.width() / parseInt(hp._width), hp._width = $ifr.width(),
+        hp._height = $ifr.height();
     $dfd.resolve(), $dfd = null;
   });
 
